@@ -1,3 +1,11 @@
+import { MultiStepForm } from '../components/MultiStepForm';
+
 export default function Home() {
-  return <div>Hello React.js Testing Series Friends!!!</div>;
+  return (
+    <MultiStepForm
+      onSubmit={(values) => {
+        console.log('Form Submitted', values);
+      }}
+    />
+  );
 }
