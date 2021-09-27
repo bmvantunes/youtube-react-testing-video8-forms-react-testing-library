@@ -78,8 +78,21 @@ describe('MultiStepForm', () => {
     });
   });
 
+  describe('first name field', () => {
+    it('shows error when first name has more than 5 chars', async () => {
+      user.type(getFirstName(), 'Carlos');
+      user.tab();
+
+      await waitFor(() => {
+        expect(getFirstName()).toHaveErrorMessage(
+          `Your name can't be longer than 5 chars`
+        );
+      });
+    });
+  });
+
   describe('money field', () => {
-    it('think in a sec', async () => {
+    it('shows error when money is lower than 1000000 and millionaire selected', async () => {
       user.type(getFirstName(), 'Bruno');
       selectJobSituation('Full-Time');
       user.type(getCity(), 'Vila Real');
