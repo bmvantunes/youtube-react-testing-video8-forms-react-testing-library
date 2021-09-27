@@ -85,8 +85,8 @@ export function MultiStepForm({ onSubmit }: MultiStepFormProps) {
                 id="firstName"
                 fullWidth
                 name="firstName"
-                component={TextField}
-                // component={CustomTextFieldWithErrorMessage}
+                // component={TextField}
+                component={CustomTextFieldWithErrorMessage}
                 label="First Name"
               />
             </Box>
@@ -100,8 +100,8 @@ export function MultiStepForm({ onSubmit }: MultiStepFormProps) {
                 id="city"
                 fullWidth
                 name="city"
-                // component={CustomTextFieldWithErrorMessage}
-                component={TextField}
+                component={CustomTextFieldWithErrorMessage}
+                // component={TextField}
                 label="City"
               />
             </Box>
@@ -270,6 +270,7 @@ export function CustomDropdown({ name }: { name: string }) {
         name="job"
         inputProps={{
           id: 'job',
+          'aria-errormessage': props.error ? 'job-error' : null,
         }}
       >
         {field.value !== 'EMPTY' ? null : (
@@ -280,7 +281,7 @@ export function CustomDropdown({ name }: { name: string }) {
         <option value="UNEMPLOYED">Unemployed</option>
       </Field>
       <ErrorMessage name="job">
-        {(message) => <FormHelperText>{message}</FormHelperText>}
+        {(message) => <FormHelperText id="job-error">{message}</FormHelperText>}
       </ErrorMessage>
     </FormControl>
   );

@@ -41,8 +41,61 @@ describe('MultiStepForm', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it('has 3 required fields on first step', () => {
-    // TODO
+  it('has 3 required fields on first step', async () => {
+    clickNextButton();
+
+    await waitFor(() => {
+      expect(getFirstName()).toHaveErrorMessage('Your First Name is Required');
+    });
+
+    expect(getCity()).toHaveErrorMessage('city is a required field');
+    expect(getSelectJobSituation()).toHaveErrorMessage(
+      'You need to select your job situation'
+    );
+  });
+
+  describe('city field', () => {
+    it('shows error when city has less than 8 chars', async () => {
+      user.type(getCity(), 'Vila');
+      user.tab();
+
+      await waitFor(() => {
+        expect(getCity()).toHaveErrorMessage(
+          'city must be at least 8 characters'
+        );
+      });
+    });
+
+    it('shows error when city has more than 11 chars', async () => {
+      user.type(getCity(), 'Vila Real12312313123');
+      user.tab();
+
+      await waitFor(() => {
+        expect(getCity()).toHaveErrorMessage(
+          'city must be at most 11 characters'
+        );
+      });
+    });
+  });
+
+  describe('money field', () => {
+    it('think in a sec', async () => {
+      user.type(getFirstName(), 'Bruno');
+      selectJobSituation('Full-Time');
+      user.type(getCity(), 'Vila Real');
+      user.click(getMillionaireCheckbox());
+      clickNextButton();
+
+      // 2nd step
+      user.type(await findMoney(), '100');
+      clickNextButton();
+
+      await waitFor(async () => {
+        expect(await findMoney()).toHaveErrorMessage(
+          'Because you said you are a millionaire you need to have 1 million'
+        );
+      });
+    });
   });
 
   // TODO: more tests during the video
@@ -76,8 +129,12 @@ function getFirstName() {
   return screen.getByRole('textbox', { name: /first name/i });
 }
 
+function getSelectJobSituation() {
+  return screen.getByRole('combobox', { name: /JOB situation/i });
+}
+
 function selectJobSituation(jobSituation: string) {
-  const dropdown = screen.getByRole('combobox', { name: /JOB situation/i });
+  const dropdown = getSelectJobSituation();
   user.selectOptions(
     dropdown,
     within(dropdown).getByRole('option', { name: jobSituation })
