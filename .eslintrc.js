@@ -23,5 +23,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@next/next/no-document-import-in-page': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
   },
 };

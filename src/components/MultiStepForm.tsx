@@ -64,7 +64,14 @@ export function MultiStepForm({ onSubmit }: MultiStepFormProps) {
             description: '',
           }}
           onSubmit={async (values) => {
-            await sleep(500);
+            const response = await fetch('/api/my-beautiful-endpoint', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(values),
+            });
+            await response.json();
             onSubmit(values);
           }}
         >
